@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
-const Cardy = ()=>{
+const Cardy = ({summary})=>{
   return(
     <div
     >
@@ -37,7 +37,7 @@ const Cardy = ()=>{
         >
             Title
         </Typography>}
-    subheader={'11:16 /Sat aug 2014'}
+    subheader={summary.Date}
     />
     <CardContent>
     <Typography
@@ -47,10 +47,12 @@ const Cardy = ()=>{
         marginBottom:'20px'
     }}
     >
-    {("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")
-    .substring(100)}
+    {(summary.summary)
+    .substring(0,100)}...
     </Typography>
     <Button
+    component={Link}
+    to={'/detailed/'+ summary.sid}
     color='primary'
     variant='contained'
     >

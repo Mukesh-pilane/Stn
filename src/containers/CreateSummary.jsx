@@ -1,15 +1,40 @@
-import 'react-dropzone-uploader/dist/styles.css'
-import Dropzone from 'react-dropzone-uploader'
+import { useState } from "react";
+import { FileUploader } from "react-drag-drop-files";
+import { Typography } from "@mui/material";
+import axios from "axios"
 
-const Uploader = () => {  
+
+const fileTypes = ["VTT",'TXT'];
+
+function DragDrop() {
+  const [transcript, setTranscript] = useState('');
+  const handleFile = (e) => {
+    const content = e.target.result;
+    setTranscript(content);
+    axios.post('http://localhost:5000/summary',{
+      transcript:content
+    },{headers:{
+            "Authorization": localStorage.getItem('tokenId')
+        }
+        })
+        .then((response) => { 
+            console.log(response.data);
+        })
+        .catch((error) => { console.log(error); });
+  }
+  const handleChange = (file) => {
+      let fileData = new FileReader(file)
+      fileData.onloadend = handleFile;
+    fileData.readAsText(file);
+  };
   return (
-    <Dropzone
-      getUploadParams={() => ({ url: 'https://httpbin.org/post  ' })} // specify upload params and url for your files
-      onChangeStatus={({ meta, file }, status) => { console.log(status, meta, file) }}
-      onSubmit={(files) => { console.log(files.map(f => f.meta)) }}
-      accept="image/*,audio/*,video/*"
-    />
-  )
+    <>
+    <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+    <Typography>
+      {transcript}
+    </Typography>
+    </>
+  );
 }
 
-export default Uploader
+export default DragDrop;

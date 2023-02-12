@@ -5,6 +5,8 @@ import SubjectOutlinedIcon from '@mui/icons-material/SubjectOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useGoogleLogout } from 'react-google-login';
+import { useEffect } from 'react';
+import { gapi } from "gapi-script";
 
 const drawerWidth =240;
 
@@ -29,12 +31,18 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const clientId = "1044924794976-n418rqsvep3iiaiecfsqlkf1jf5895is.apps.googleusercontent.com";
+const clientId = process.env.REACT_APP_CLIENT_ID;
 
 const SideBar = ({ mobileOpen ,handleDrawerToggle}, props:Props)=>{
   const onFailure = () =>{
     console.log('failure')
   }
+  useEffect(() => {
+    gapi.load("client:auth2", () => {
+      gapi.auth2.init({ clientId });
+    });
+    
+  }, []);
 
   const onLogoutSuccess = () =>{
     navigate('/auth')

@@ -1,15 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios'
+import React, {useEffect} from 'react';
 import Auth from "./pages/Auth/Auth"
 import Home from "./pages/Home/Home"
 import { createTheme, ThemeProvider } from '@mui/material';
 import {Routes, Route, useLocation} from 'react-router-dom'
 
-// import DetailedSummary from './pages/DetailedSummary/DetailedSummary';
+import DetailedSummary from './pages/DetailedSummary/DetailedSummary';
 import Allsummaries from './containers/Allsummaries'
 import Uploader from './containers/CreateSummary'
-import { useDispatch } from "react-redux";
-import { login, verify } from "./features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { verify } from "./features/userSlice";
 
 
 const theme = createTheme({
@@ -28,12 +27,14 @@ const theme = createTheme({
 
 function App() {
 const dispatch = useDispatch();
-
+const location = useLocation();
 useEffect(() => {
-  dispatch(verify());
 
-  }
-  , [])
+   if (location.pathname!='/auth'){
+    dispatch(verify(localStorage.getItem('tokenId')));
+   }
+}
+  , [location])
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,6 +45,7 @@ useEffect(() => {
                   <Route path="/upload" element={<Uploader />} />  
                 </Route>
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/detailed/:id" element={<DetailedSummary />} />  
         </Routes>
     </div>
     </ThemeProvider>

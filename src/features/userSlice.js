@@ -3,14 +3,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios"
 
 export const verify = createAsyncThunk('user/verify', ()=>{
-    return axios.get('http://localhost:5000/verify',{headers:{
-        "Authorization": localStorage.getItem('tokenId')
+    return axios.get('http://localhost:5000/users/gSigin',{headers:{
+        "Authorization": localStorage.getItem('tokenId').trim(' ')
     }
     })
     .then((response) => { 
+        console.log(localStorage.getItem('tokenId').trim(' '))
       return {
               user: response.data.uinfo.name,
-              profilePicture: response.data.uinfo.picture
+              profilePicture: response.data.uinfo.picture,
             };
     })
     .catch((error) => { console.log(error); });
@@ -30,6 +31,8 @@ export const userSlice = createSlice({
         },
         logout: (state) => {
             state.user = null;
+            state.profilePicture = null;
+            state.isLoading = null
         }
     },
     extraReducers:{

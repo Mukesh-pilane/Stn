@@ -3,13 +3,16 @@ import { gapi } from "gapi-script";
 import { useEffect } from "react";
 import "./auth.css";
 import SignupImg from "../../img/SignupImg";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-const clientId =
-  "1044924794976-n418rqsvep3iiaiecfsqlkf1jf5895is.apps.googleusercontent.com";
+import { useNavigate } from "react-router-dom";
+import { verify } from "../../features/userSlice";
+
 
 const Auth = () => {
   const navigate = useNavigate();
+  const clientId = process.env.REACT_APP_CLIENT_ID;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     gapi.load("client:auth2", () => {

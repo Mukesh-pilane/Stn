@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 const Appbar = ({drawerWidth, handleDrawerToggle})=>{
   const {profilePicture} = useSelector((state) => state.user);
+  console.log(profilePicture)
   return( 
       <AppBar
         position="fixed"
