@@ -5,8 +5,7 @@ import "./auth.css";
 import SignupImg from "../../img/SignupImg";
 import { useNavigate } from "react-router-dom";
 
-const clientId =
-  "1044924794976-n418rqsvep3iiaiecfsqlkf1jf5895is.apps.googleusercontent.com";
+const clientId = process.env.REACT_APP_CLIENT_ID;
 
 const Auth = () => {
   const navigate = useNavigate();
