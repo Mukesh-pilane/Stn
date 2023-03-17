@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios"
 
 export const verify = createAsyncThunk('user/verify', ()=>{
-    return axios.get('http://localhost:5000/users/gSigin',{headers:{
+    return axios.get(`${process.env.REACT_APP_BASE_URL}/users/gSigin`,{headers:{
         "Authorization": localStorage.getItem('tokenId').trim(' ')
     }
     })
@@ -35,18 +35,19 @@ export const userSlice = createSlice({
             state.isLoading = null
         }
     },
-    extraReducers:{
-        [verify.pending]: (state) => {
+    extraReducers:(builder) => {
+        builder
+        .addCase(verify.pending, (state) => {
             state.isLoading = true;
-        },
-        [verify.fulfilled]: (state, action) => {
+        })
+        .addCase(verify.fulfilled, (state, action) => {
             state.isLoading = true;
             state.user = action.payload.user;
             state.profilePicture = action.payload.profilePicture
-        },
-        [verify.rejected]: (state) => {
+        })
+        .addCase(verify.rejected, (state) => {
             state.isLoading = false;
-        }
+        })
     }
 }) 
 

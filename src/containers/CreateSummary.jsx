@@ -11,7 +11,8 @@ function DragDrop() {
   const handleFile = (e) => {
     const content = e.target.result;
     setTranscript(content);
-    axios.post('http://localhost:5000/summary',{
+    axios.post(`${process.env.REACT_APP_BASE_URL}/summary`,
+    {
       transcript:content
     },{headers:{
             "Authorization": localStorage.getItem('tokenId')

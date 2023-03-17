@@ -4,7 +4,4 @@ import os
 CLIENTID = os.environ.get('CLIENT_ID')
 
 #DB configs
-MYSQL_HOST = os.environ.get('MYSQL_HOST')
-MYSQL_USER = os.environ.get('MYSQL_USER')
-MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
-MYSQL_DB = 'stm'
+MONGODB_URL = "mongodb+srv://mukeshpilane:123mukesh@cluster0.83vr0ru.mongodb.net/?retryWrites=true&w=majority" or"mongodb://localhost:27017"  #os.environ.get("DATABASE_URL")

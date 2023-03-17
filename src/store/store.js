@@ -2,14 +2,13 @@
 import {configureStore} from '@reduxjs/toolkit'
 
 import userReducers from '../features/userSlice'
-import summaryReducers from '../features/summarySlice'
+import dataReducers from '../features/dataSlice'
 
-// const store = createStore(rootReducer)
 
 const store = configureStore({
     reducer: {
         user : userReducers,
-        summary : summaryReducers
+        data : dataReducers
     }
 })
 export default store

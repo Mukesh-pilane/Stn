@@ -8,6 +8,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import AudioFileIcon from '@mui/icons-material/AudioFile';
 import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchSummarryById, fetchTranslate } from '../../features/dataSlice';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -24,52 +26,21 @@ const MenuProps = {
 
 const DetailedSummary = () => {
     const {id} = useParams()
-    const [summary, setSummary] = useState({
-      transcript:"",
-      summary: ""      })
+    const dispatch = useDispatch()
+    const {summaryDetailed} = useSelector((state) => state.data);
+      
     const [lang, setLang] = useState('ENGLISH')
     const Menu = [, 'HINDI','ENGLISH', 'MARATHI', 'ARABIC', 'BENGALI', 'CHINESE', 'FRENCH', 'GUJARATI', 'JAPANESE', 'KANNADA', 'MALAYALAM', 'NEPALI', 'ORIYA', 'PORTUGUESE', 'PUNJABI', 'RUSSIAN', 'SPANISH', 'TAMIL', 'TELUGU', 'URDU']
     useEffect(() => {
-        
-        const getsummaries = () => {axios.get(`http://localhost:5000/summary?id=${id}`,{headers:{
-            "Authorization": localStorage.getItem('tokenId')
-        }
-        })
-        .then((response) => { 
-          setSummary({
-            transcript:response.data[0].transcript,
-            summary:response.data[0].summary
-          });
+    dispatch(fetchSummarryById(id))
+    }, [dispatch])
 
-        })
-        .catch((error) => { console.log(error); });
-    } 
-    getsummaries()
-    }, [])
-
-    const translateLanguages = (transcript, summaryText, src, dest) => {
-      axios.post(`http://localhost:5000/summary/translateText`,{
-        transcript:transcript,
-        summary:summaryText,
-        src:src,
-        dest:dest
-      },{headers:{
-            "Authorization": localStorage.getItem('tokenId')
-        }
-        })
-        .then((response) => { 
-            console.log(response.data);
-            setSummary(response.data)
-        })
-        .catch((error) => { console.log(error); });
-    }
-
+  
     const handleChange = (event) => {
       const {
         target: { value },
       } = event;
-      translateLanguages(summary.transcript,summary.summary,typeof lang === 'string' ? lang: lang[0],value)
-      console.log(lang,value);
+      dispatch(fetchTranslate({transcript:summaryDetailed.transcript,summaryText:summaryDetailed.summary,src:typeof lang === 'string' ? lang: lang[0],dest:value}))
       setLang(typeof value === 'string' ? value.split(',') : value);
     };
   
@@ -146,7 +117,7 @@ const DetailedSummary = () => {
           <b>Transecript: </b>
         </Typography>
         <Typography>
-          {summary.transcript}
+          {summaryDetailed.transcript}
         </Typography>
         <Typography 
         color= 'primary'
@@ -154,7 +125,7 @@ const DetailedSummary = () => {
           <b>summary: </b>
         </Typography>
         <Typography>
-        {summary.summary}
+        {summaryDetailed.summary}
         </Typography>
       </Container>
     </>    

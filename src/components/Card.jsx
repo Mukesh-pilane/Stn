@@ -37,7 +37,7 @@ const Cardy = ({summary})=>{
         >
             Title
         </Typography>}
-    subheader={summary.Date}
+    subheader={summary.Date.$date}
     />
     <CardContent>
     <Typography
@@ -47,12 +47,11 @@ const Cardy = ({summary})=>{
         marginBottom:'20px'
     }}
     >
-    {(summary.summary)
-    .substring(0,100)}...
+    {summary.summary}...
     </Typography>
     <Button
     component={Link}
-    to={'/detailed/'+ summary.sid}
+    to={'/detailed/'+ summary._id.$oid}
     color='primary'
     variant='contained'
     >

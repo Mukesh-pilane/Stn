@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { verify } from "../../features/userSlice";
+import { refreshTokenSetup } from "../../utils/refreshTokenSetup";
 
 
 const Auth = () => {
@@ -22,6 +23,7 @@ const Auth = () => {
   }, []);
 
   const onLoginSuccess = (res) => {
+    refreshTokenSetup(res)
     localStorage.setItem('tokenId', res.tokenId.trim(' '))
     navigate('/')
   };

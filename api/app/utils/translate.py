@@ -30,6 +30,7 @@ def translateText(inp_text, inp_lang, op_lang):
 	text_to_translate = translator.translate(
 		inp_text, src=LANGUAGE_CODES[inp_lang], dest=LANGUAGE_CODES[op_lang])
 	op_text = text_to_translate.text
+	
 	return(op_text)
 
 
