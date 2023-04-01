@@ -9,6 +9,7 @@ import Allsummaries from './containers/Allsummaries'
 import Uploader from './containers/CreateSummary'
 import { useDispatch, useSelector } from "react-redux";
 import { verify } from "./features/userSlice";
+import Verification from './pages/verification/verification';
 
 
 const theme = createTheme({
@@ -34,7 +35,7 @@ useEffect(() => {
     if (location.pathname!=='/auth'){
     dispatch(verify(localStorage.getItem('tokenId')));
     if(!localStorage.getItem('tokenId')){
-      navigate('/auth');
+      // navigate('/auth');
     }
    }
 }
@@ -49,6 +50,7 @@ useEffect(() => {
                   <Route path="/upload" element={<Uploader />} />  
                 </Route>
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/verifylog" element={<Verification />} />
                 <Route path="/detailed/:id" element={<DetailedSummary />} />  
         </Routes>
     </div>
